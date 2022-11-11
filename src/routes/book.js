@@ -126,7 +126,7 @@ booksRouter.post(
         data: filteredBody,
         })
         // response.send({ data: filteredBody, message: "book added successfully" })
-        response.send({ data: book, message: "book added successfully" })
+        response.send({ newBook: book, message: "book added successfully" })
 
 
     // use lodash to avoid using this:
@@ -168,7 +168,7 @@ booksRouter.put("/books/:bookId", async (request, response) => {
           },
         data: filteredBody,
       })
-    response.send({ data: updatedBook, message: "ok" })
+    response.send({ updatedBook: updatedBook, message: "ok" })
 })
 
 // ============ DELETING A BOOK ============:
@@ -200,7 +200,7 @@ booksRouter.delete("/books/:bookId", async (request, response) => {
                 id: Number.parseInt(bookId),
             },
         });
-        response.send({ data: deletedBook, message: deletedBook? "ok":"book not found" })
+        response.send({ deletedBook: deletedBook, message: deletedBook? "ok":"book not found" })
     } catch {
         response.send({ data: null, message: "book not found" })
     }
@@ -239,7 +239,7 @@ booksRouter.get("/books/:bookId/genres", async (request, response) => {
 
     // console.log(genres.length)
       if (genres.length === 0){
-        response.send( {genre: genres, message: "this book doesnt have any genres specified"})
+        response.send( {genres: genres, message: "this book doesnt have any genres specified"})
       }
       response.send( { genres: genres, message: "ok"})
 })

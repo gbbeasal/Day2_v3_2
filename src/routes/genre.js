@@ -32,7 +32,12 @@ genreRouter.get("/genres/:genreId/books", async (request, response) => {
             books: true
         }
     })
-    response.send({books: genres.books})
+
+    const books = genres.books.map( ( {book} ) => book)
+      if (books.length === 0){
+        response.send( {books: books, message: "There are no books under this genre"})
+      }
+      response.send( { books: genres.books, message: "ok"})
 })
 
 // ============ PUT /genres/:genreId ============:
@@ -48,7 +53,7 @@ genreRouter.put("/genres/:genreId", async (request, response) => {
           },
         data: filteredBody,
       })
-    response.send({ data: updatedGenre, message: "ok" })
+    response.send({ updatedGennre: updatedGenre, message: "Genre update successful" })
 })
 
 // ============== POST /genres ==============:
@@ -77,9 +82,22 @@ genreRouter.post(
         data: filteredBody,
         })
         // response.send({ data: filteredBody, message: "book added successfully" })
-        response.send({ genre: genre, message: "Genre added successfully" })
+        response.send({ newGenre: genre, message: "Genre added successfully" })
 })
 
 // ============== DELETE /genres/:genreId ==============:
+genreRouter.delete("/genres/:genreId", async (request, response) => {
+    const genreId = parseInt(request.params.genreId);
+    try {
+        const deletedGenre = await request.app.locals.prisma.genre.delete({
+            where: {
+                id: Number.parseInt(genreId),
+            },
+        });
+        response.send({ deletedGenre: deletedGenre, message: deletedGenre? "ok":"Genre not found" })
+    } catch {
+        response.send({ data: null, message: "genre not found" })
+    }
+})
 
 export default genreRouter;

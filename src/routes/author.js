@@ -55,7 +55,7 @@ authorRouter.put("/authors/:authorId", async (request, response) => {
           },
         data: filteredBody,
       })
-    response.send({ data: updatedAuthor, message: "Field update successful" })
+    response.send({ updatedAuthor: updatedAuthor, message: "Field update successful" })
 })
 
 // ============== POST /authors ==============:
@@ -91,7 +91,7 @@ authorRouter.post(
         data: filteredBody,
         })
         // response.send({ data: filteredBody, message: "book added successfully" })
-        response.send({ author: author, message: "Author added successfully" })
+        response.send({ newAuthor: author, message: "Author added successfully" })
 })
 
 // ============== DELETE /authors/:authorId ==============:
